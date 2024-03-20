@@ -13,7 +13,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <Gerrit-ApiType>plugin</Gerrit-ApiType>
-        <Gerrit-ApiVersion>3.9.1</Gerrit-ApiVersion>
+        <Gerrit-ApiVersion>3.9.2</Gerrit-ApiVersion>
     </properties>
 
     <build>

@@ -6,7 +6,7 @@
 
     <groupId>eu.glaeqen</groupId>
     <artifactId>gerrit-gitlab-oauth</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -33,14 +33,16 @@
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Gerrit-PluginName>gitlab-oauth</Gerrit-PluginName>
+                                        <Gerrit-PluginName>gerrit-gitlab-oauth</Gerrit-PluginName>
                                         <Gerrit-ApiType>${Gerrit-ApiType}</Gerrit-ApiType>
                                         <Gerrit-ApiVersion>${Gerrit-ApiVersion}</Gerrit-ApiVersion>
                                         <Gerrit-Module>eu.glaeqen.gerritgitlaboauth.Module</Gerrit-Module>
                                         <Gerrit-HttpModule>eu.glaeqen.gerritgitlaboauth.HttpModule</Gerrit-HttpModule>
-                                        <Implementation-Title>Custom GitLab OAuth client by glaeqen
+                                        <Implementation-Title>Custom GitLab OAuth client
                                         </Implementation-Title>
                                         <Implementation-Version>${project.version}</Implementation-Version>
+                                        <Implementation-Vendor>glaeqen</Implementation-Vendor>
+                                        <Implementation-URL>https://github.com/glaeqen/gerrit-gitlab-oauth</Implementation-URL>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>

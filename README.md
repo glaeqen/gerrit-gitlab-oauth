@@ -9,7 +9,7 @@ On top of standard authentication, it can
 
 ## Build
 
-Java 17 minimum is required.
+Java 23 minimum is required.
 
 ```sh
 # Should create a plugin JAR in target/

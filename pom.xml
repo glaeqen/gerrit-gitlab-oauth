@@ -9,11 +9,11 @@
     <version>1.0.0</version>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <Gerrit-ApiType>plugin</Gerrit-ApiType>
-        <Gerrit-ApiVersion>3.9.2</Gerrit-ApiVersion>
+        <Gerrit-ApiVersion>3.11.1</Gerrit-ApiVersion>
     </properties>
 
     <build>
@@ -78,7 +78,7 @@
         <dependency>
             <groupId>org.gitlab4j</groupId>
             <artifactId>gitlab4j-api</artifactId>
-            <version>5.5.0</version>
+            <version>5.8.0</version>
         </dependency>
     </dependencies>
 

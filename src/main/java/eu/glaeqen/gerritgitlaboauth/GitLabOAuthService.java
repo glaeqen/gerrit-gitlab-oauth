@@ -20,7 +20,10 @@ import org.gitlab4j.api.models.Email;
 import org.slf4j.Logger;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -87,18 +90,14 @@ public class GitLabOAuthService implements OAuthServiceProvider {
                 log.warn("User {} does not have an email?", userId);
                 mainEmail = "UNKNOWN_EMAIL";
             }
-            var emailDomain = config.getEmailDomain();
+            var preferredEmailMatcher = config.getPreferredEmailMatcher();
+            var validEmails = apiViaOauth.getUserApi().getEmails().stream().map(Email::getEmail).toArray(String[]::new);
+            var decidedEmail = getEmail(preferredEmailMatcher, mainEmail, validEmails);
             String email;
-            if (emailDomain.isPresent()) {
-                var validEmails = apiViaOauth.getUserApi().getEmails().stream().map(Email::getEmail).filter(e -> e.endsWith(emailDomain.get())).toList();
-                var validEmailCount = validEmails.size();
-                if (validEmailCount != 1) {
-                    log.info("User {} has {} != 1 valid emails. Failing authentication.", userId, validEmailCount);
-                    return null;
-                }
-                email = validEmails.get(0);
+            if (decidedEmail.isPresent()) {
+                email = decidedEmail.get();
             } else {
-                email = mainEmail;
+                return null;
             }
             var name = userFromApi.getName();
             if (name == null) {
@@ -155,6 +154,19 @@ public class GitLabOAuthService implements OAuthServiceProvider {
         return user;
     }
 
+    /// Choose "the e-mail" to be used in a profile within the Gerrit instance.
+    public static Optional<String> getEmail(Pattern[] emailWhitelist, String mainEmail, String[] validEmails) {
+        for (var pattern : emailWhitelist) {
+            var matchedEmails = Arrays.stream(validEmails).filter(email -> pattern.matcher(email).matches()).toArray(String[]::new);
+            if (matchedEmails.length == 1) {
+                return Optional.of(matchedEmails[0]);
+            }
+            if (matchedEmails.length > 1) {
+                return Optional.empty();
+            }
+        }
+        return Optional.of(mainEmail);
+    }
 
     @Override
     public OAuthToken getAccessToken(OAuthVerifier rv) {
